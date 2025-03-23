@@ -10,7 +10,9 @@ import UIKit
 final class AppAssembly {
     static func assemble(window: UIWindow?) -> AppCoordinator {
         
-        let tasksAssembly = TasksAssembly()
+        let coreDataService = CoreDataService()
+        
+        let tasksAssembly = TasksAssembly(coreDataService: coreDataService)
         
         let appCoordinator = AppCoordinator(
             window: window,

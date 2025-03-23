@@ -8,14 +8,19 @@
 import UIKit
 import SnapKit
 
-final class TasksTableViewCellView: UIView {
+protocol TaskViewConfigurePrt {
+    func configure(viewModel: TaskModel)
+}
+
+final class TasksTableViewCellView: UIView, TaskViewConfigurePrt, UITextFieldDelegate {
     
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.textColor = .label
-        label.text = "test"
-        return label
+    private lazy var titleLabel: UITextField = {
+        let field = UITextField()
+        field.textAlignment = .left
+        field.textColor = .label
+        field.delegate = self
+        field.placeholder = "New To-Do"
+        return field
     }()
     
     private lazy var activeTaskImage: UIImage? = {
@@ -79,17 +84,26 @@ final class TasksTableViewCellView: UIView {
         model = viewModel
         guard let model = self.model else { return }
         titleLabel.text = model.title
-        checkButton.setImage(model.active ? activeTaskImage : doneTaskImage, for: .normal)
-        titleLabel.textColor = model.active ? .label : .lightGray
+        checkButton.setImage(model.isDone ? activeTaskImage : doneTaskImage, for: .normal)
+        titleLabel.textColor = model.isDone ? .label : .lightGray
     }
     
     @objc private func checkButtonTapped() {
         model?.checkButtonTapped()
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        model?.changeTitle(textField.text ?? "")
+    }
 }
 
 final class TasksTableViewCell: UITableViewCell {
-    private lazy var view = TasksTableViewCellView()
+    private lazy var view: TaskViewConfigurePrt & UIView = TasksTableViewCellView()
     
     static let id = "TasksTableViewCellID"
     

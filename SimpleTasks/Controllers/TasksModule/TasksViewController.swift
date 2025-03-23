@@ -11,6 +11,8 @@ protocol TasksViewProtocol: AnyObject {
     func reloadView()
     
     func reloadRowAt(indexPath: IndexPath)
+    
+    func addRowAt(indexPath: IndexPath)
 }
 
 class TasksViewController: UIViewController {
@@ -24,6 +26,20 @@ class TasksViewController: UIViewController {
         view.showsVerticalScrollIndicator = false
         view.separatorStyle = .none
         return view
+    }()
+    
+    private lazy var addTaskButton: UIButton = {
+        let button = UIButton()
+        let systemImage = UIImage(systemName: "plus")
+        let mediumConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium, scale: .default)
+        let mediumImage = systemImage?.withConfiguration(mediumConfig)
+        let grayImage = mediumImage?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        button.setImage(grayImage, for: .normal)
+        button.backgroundColor = UIColor(red: 83/255, green: 106/255, blue: 245/255, alpha: 1)
+        button.layer.cornerRadius = 25
+        button.layer.cornerCurve = .continuous
+        button.addTarget(self, action: #selector(addTaskButtonTapped), for: .touchUpInside)
+        return button
     }()
     
     var presenter: TasksPresenterProtocol?
@@ -41,6 +57,17 @@ class TasksViewController: UIViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        
+        view.addSubview(addTaskButton)
+        addTaskButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(25)
+            make.bottom.equalToSuperview().inset(40)
+            make.height.width.equalTo(50)
+        }
+    }
+    
+    @objc private func addTaskButtonTapped() {
+        presenter?.addTaskButtonTapped()
     }
 }
 
@@ -52,6 +79,10 @@ extension TasksViewController: TasksViewProtocol {
     
     func reloadRowAt(indexPath: IndexPath) {
         tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    func addRowAt(indexPath: IndexPath) {
+        tableView.insertRows(at: [indexPath], with: .fade)
     }
 }
 

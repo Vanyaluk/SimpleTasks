@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E6B9DF22D8999C1001205BB /* SimpleTaskCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B9DF02D8999C1001205BB /* SimpleTaskCoreData.xcdatamodeld */; };
+		6E6B9E042D89A0FF001205BB /* Task+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B9E032D89A0FF001205BB /* Task+CoreData.swift */; };
+		6E6B9E062D89A294001205BB /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B9E052D89A294001205BB /* CoreDataService.swift */; };
+		6E6B9E082D89A709001205BB /* CoreDataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6B9E072D89A709001205BB /* CoreDataProtocol.swift */; };
 		6E8510852D884E0600C419BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E85107C2D884E0600C419BF /* Assets.xcassets */; };
 		6E8510872D884E0600C419BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E85107F2D884E0600C419BF /* LaunchScreen.storyboard */; };
 		6E8510892D884E0600C419BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E85107B2D884E0600C419BF /* AppDelegate.swift */; };
@@ -18,10 +22,16 @@
 		6E8510A12D8860AC00C419BF /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E85109C2D8860AC00C419BF /* TasksViewController.swift */; };
 		6E8510A32D88613000C419BF /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8510A22D88613000C419BF /* AppCoordinator.swift */; };
 		6E8510A52D88656900C419BF /* TasksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8510A42D88656900C419BF /* TasksTableViewCell.swift */; };
+		6EEA56EA2D9096420073A4A0 /* TasksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA56E92D9096420073A4A0 /* TasksManager.swift */; };
+		6EEA56ED2D9096EC0073A4A0 /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA56EC2D9096EC0073A4A0 /* TaskModel.swift */; };
 		9E2ED34C6EDB31F7960A6664 /* Pods_SimpleTasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AA4BBEDF86E42ABFFF81500 /* Pods_SimpleTasks.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6E6B9DF12D8999C1001205BB /* SimpleTaskCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SimpleTaskCoreData.xcdatamodel; sourceTree = "<group>"; };
+		6E6B9E032D89A0FF001205BB /* Task+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreData.swift"; sourceTree = "<group>"; };
+		6E6B9E052D89A294001205BB /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		6E6B9E072D89A709001205BB /* CoreDataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataProtocol.swift; sourceTree = "<group>"; };
 		6E8510632D884DFC00C419BF /* SimpleTasks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleTasks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E85107B2D884E0600C419BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6E85107C2D884E0600C419BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -35,6 +45,8 @@
 		6E85109C2D8860AC00C419BF /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
 		6E8510A22D88613000C419BF /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		6E8510A42D88656900C419BF /* TasksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksTableViewCell.swift; sourceTree = "<group>"; };
+		6EEA56E92D9096420073A4A0 /* TasksManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksManager.swift; sourceTree = "<group>"; };
+		6EEA56EC2D9096EC0073A4A0 /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
 		8AA4BBEDF86E42ABFFF81500 /* Pods_SimpleTasks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SimpleTasks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1D4DDB206FD330C0A53199C /* Pods-SimpleTasks.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleTasks.debug.xcconfig"; path = "Target Support Files/Pods-SimpleTasks/Pods-SimpleTasks.debug.xcconfig"; sourceTree = "<group>"; };
 		F4FA1F9F065940075FD816B7 /* Pods-SimpleTasks.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleTasks.release.xcconfig"; path = "Target Support Files/Pods-SimpleTasks/Pods-SimpleTasks.release.xcconfig"; sourceTree = "<group>"; };
@@ -52,6 +64,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6E6B9DEF2D89995E001205BB /* CoreDataModels */ = {
+			isa = PBXGroup;
+			children = (
+				6E6B9E032D89A0FF001205BB /* Task+CoreData.swift */,
+				6E6B9DF02D8999C1001205BB /* SimpleTaskCoreData.xcdatamodeld */,
+			);
+			path = CoreDataModels;
+			sourceTree = "<group>";
+		};
 		6E85105A2D884DFC00C419BF = {
 			isa = PBXGroup;
 			children = (
@@ -74,6 +95,8 @@
 			isa = PBXGroup;
 			children = (
 				6E85108C2D884EB300C419BF /* Application */,
+				6E8510A82D88B2EE00C419BF /* Storage */,
+				6EEA56E82D90962F0073A4A0 /* Managers */,
 				6E85108E2D884ED900C419BF /* Controllers */,
 				6E85108D2D884ED100C419BF /* Other */,
 			);
@@ -119,6 +142,33 @@
 				6E8510992D8860AC00C419BF /* TasksAssembly.swift */,
 			);
 			path = TasksModule;
+			sourceTree = "<group>";
+		};
+		6E8510A82D88B2EE00C419BF /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				6E6B9E072D89A709001205BB /* CoreDataProtocol.swift */,
+				6E6B9E052D89A294001205BB /* CoreDataService.swift */,
+				6E6B9DEF2D89995E001205BB /* CoreDataModels */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		6EEA56E82D90962F0073A4A0 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				6EEA56EB2D9096DB0073A4A0 /* Task */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		6EEA56EB2D9096DB0073A4A0 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				6EEA56E92D9096420073A4A0 /* TasksManager.swift */,
+				6EEA56EC2D9096EC0073A4A0 /* TaskModel.swift */,
+			);
+			path = Task;
 			sourceTree = "<group>";
 		};
 		BF647E5DD7E031DC4C75BD6F /* Pods */ = {
@@ -254,13 +304,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E8510892D884E0600C419BF /* AppDelegate.swift in Sources */,
+				6E6B9DF22D8999C1001205BB /* SimpleTaskCoreData.xcdatamodeld in Sources */,
+				6E6B9E042D89A0FF001205BB /* Task+CoreData.swift in Sources */,
 				6E8510942D885EE900C419BF /* AppAssembly.swift in Sources */,
+				6E6B9E062D89A294001205BB /* CoreDataService.swift in Sources */,
 				6E85108A2D884E0600C419BF /* SceneDelegate.swift in Sources */,
 				6E8510A52D88656900C419BF /* TasksTableViewCell.swift in Sources */,
 				6E85109E2D8860AC00C419BF /* TasksPresenter.swift in Sources */,
+				6EEA56EA2D9096420073A4A0 /* TasksManager.swift in Sources */,
 				6E8510A32D88613000C419BF /* AppCoordinator.swift in Sources */,
 				6E85109F2D8860AC00C419BF /* TasksRouter.swift in Sources */,
 				6E8510A02D8860AC00C419BF /* TasksAssembly.swift in Sources */,
+				6EEA56ED2D9096EC0073A4A0 /* TaskModel.swift in Sources */,
+				6E6B9E082D89A709001205BB /* CoreDataProtocol.swift in Sources */,
 				6E8510A12D8860AC00C419BF /* TasksViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -476,6 +532,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		6E6B9DF02D8999C1001205BB /* SimpleTaskCoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6E6B9DF12D8999C1001205BB /* SimpleTaskCoreData.xcdatamodel */,
+			);
+			currentVersion = 6E6B9DF12D8999C1001205BB /* SimpleTaskCoreData.xcdatamodel */;
+			path = SimpleTaskCoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 6E85105B2D884DFC00C419BF /* Project object */;
 }
