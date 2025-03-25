@@ -21,83 +21,62 @@ final class TasksPresenter {
     
     weak var view: TasksViewProtocol?
     var router: TasksRouterInput
-    private var coreDataService: CoreDataProtocol
+    private var taskRepository: TaskRepositoryProtocol
     
     var taskModels: [TaskModel] = []
 
-    init(view: TasksViewProtocol?, router: TasksRouterInput, coreDataService: CoreDataProtocol) {
+    init(view: TasksViewProtocol?, router: TasksRouterInput, taskRepository: TaskRepositoryProtocol) {
         self.view = view
         self.router = router
-        self.coreDataService = coreDataService
+        self.taskRepository = taskRepository
+    }
+    
+    private func fetchTaskStorage() {
+        taskModels = taskRepository.fetch(
+            checkButtonTapped: checkButtonTapped(id:),
+            changeTitle: changeTitle(id: title:)
+        )
     }
 }
 
 extension TasksPresenter: TasksPresenterProtocol {
     
     func viewDidLoaded() {
-        let convertClosure: (TaskEntity) -> TaskModel = { entity in
-            guard let id = entity.id,
-                    let title = entity.title,
-                    let date = entity.date else {
-                return TaskModel.getMockModel()
-            }
-            
-            let model = TaskModel(id: id, title: title, isDone: entity.isDone, date: date) {
-                self.checkButtonTapped(id: id)
-            } changeTitle: { newTitle in
-                self.changeTitle(id: id, title: newTitle)
-            }
-
-            return model
-        }
-        
-        taskModels = coreDataService.fetch(convertClosure: convertClosure)
-        
+        fetchTaskStorage()
         view?.reloadView()
     }
     
     func addTaskButtonTapped() {
-        let id: UUID = UUID()
-        let model = TaskModel(id: id, title: "", isDone: true, date: Date()) {
-            self.checkButtonTapped(id: id)
-        } changeTitle: { newTitle in
-            self.changeTitle(id: id, title: newTitle)
+        taskRepository.insertEmptyTask { [weak self] in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                self.fetchTaskStorage()
+                self.view?.addRowAt(indexPath: IndexPath(row: self.taskModels.count - 1, section: 0))
+            }
         }
-        taskModels.append(model)
-        view?.addRowAt(indexPath: IndexPath(row: taskModels.count - 1, section: 0))
     }
     
     private func changeTitle(id: UUID, title: String) {
-        var taskModelsRewrite: [TaskModel] = []
-        taskModels.forEach { model in
-            var modelCopy = model
-            if modelCopy.id == id {
-                modelCopy.title = title
+        guard var model = taskModels.first(where: {$0.id == id}) else { return }
+        model.title = title
+        taskRepository.update(model: model) { [weak self] in
+            DispatchQueue.main.async {
+                self?.fetchTaskStorage()
             }
-            taskModelsRewrite.append(modelCopy)
         }
-        
-        self.taskModels = taskModelsRewrite
     }
     
     private func checkButtonTapped(id: UUID) {
-        guard let row = taskModels.firstIndex(where: { $0.id == id }) else {
-            print("error /////")
-            return
-        }
-        
-        var taskModelsRewrite: [TaskModel] = []
-        taskModels.forEach { model in
-            var modelCopy = model
-            if modelCopy.id == id {
-                modelCopy.isDone.toggle()
+        guard var model = taskModels.first(where: {$0.id == id}),
+                let row = taskModels.firstIndex(where: { $0.id == id }) else { return }
+        model.isDone.toggle()
+        taskRepository.update(model: model) { [weak self] in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                self.fetchTaskStorage()
+                self.view?.reloadRowAt(indexPath: IndexPath(row: row, section: 0))
             }
-            taskModelsRewrite.append(modelCopy)
         }
-        
-        self.taskModels = taskModelsRewrite
-        view?.reloadRowAt(indexPath: IndexPath(row: row, section: 0))
-        print(row)
     }
 }
 

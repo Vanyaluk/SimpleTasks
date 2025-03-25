@@ -15,6 +15,10 @@ final class CoreDataService: CoreDataProtocol {
         return persistentContainer.viewContext
     }
     
+    private lazy var backgroundContext = {
+        return persistentContainer.newBackgroundContext()
+    }()
+    
     init(persistentContainer: NSPersistentContainer) {
         self.persistentContainer = persistentContainer
     }
@@ -23,47 +27,66 @@ final class CoreDataService: CoreDataProtocol {
         let container = NSPersistentContainer(name: "SimpleTaskCoreData")
         container.loadPersistentStores(completionHandler: { _, _ in })
         self.init(persistentContainer: container)
+        
     }
     
-    func fetch<Entity: NSManagedObject & EntityNamed, Model>(convertClosure: (Entity) -> Model) -> [Model] {
+    func fetch<Entity: NSManagedObject & EntityNamed, Model>(invertClosure: (Entity) -> Model) -> [Model] {
         var results: [Entity] = []
         viewContext.performAndWait {
             let fetchRequest = NSFetchRequest<Entity>(entityName: Entity.entityName)
-            do {
-                results = try fetchRequest.execute()
-            } catch {
-                print("fetch ERROR")
-            }
+            results = (try? fetchRequest.execute()) ?? []
         }
-        return results.map(convertClosure)
+        return results.map(invertClosure)
     }
     
-    func insert<Model, Entity: NSManagedObject>(models: [Model], convertClosure: (Model, Entity) -> Void) {
-        viewContext.performAndWait {
+    
+    func insert<Model, Entity: NSManagedObject>(models: [Model], convertClosure: @escaping (Model, Entity) -> Void, completion: @escaping () -> Void) {
+        backgroundContext.perform { [weak self] in
+            guard let self = self else { return }
             models.forEach { model in
-                let entity = Entity(context: viewContext)
+                let entity = Entity(context: self.backgroundContext)
                 convertClosure(model, entity)
             }
-        }
-        do {
-            try viewContext.save()
-        } catch {
-            print("insert ERROR")
+            try? self.backgroundContext.save()
+            completion()
         }
     }
     
-    func deleteAll<Entity: NSManagedObject & EntityNamed>(_ type: Entity.Type) {
-        viewContext.performAndWait {
+    func update<Model: UUIDble, Entity: NSManagedObject & EntityNamed & UUIDble>(
+        model: Model, convertClosure: @escaping (Model, Entity) -> Void, completion: @escaping () -> Void) {
+        backgroundContext.perform { [weak self] in
+            guard let self = self else { return }
             let fetchRequest = NSFetchRequest<Entity>(entityName: Entity.entityName)
-            do {
-                let results = try fetchRequest.execute()
+            guard let results = try? fetchRequest.execute(),
+                    let entity = results.first(where: { $0.id == model.id }) else { return }
+            convertClosure(model, entity)
+            try? self.backgroundContext.save()
+            completion()
+        }
+    }
+    
+    func delete<Entity: NSManagedObject & EntityNamed & UUIDble>(_ type: Entity.Type, id: UUID, completion: @escaping () -> Void) {
+        backgroundContext.perform { [weak self] in
+            guard let self = self else { return }
+            let fetchRequest = NSFetchRequest<Entity>(entityName: Entity.entityName)
+            guard let results = try? fetchRequest.execute(),
+                    let entity = results.first(where: { $0.id == id }) else { return }
+            self.backgroundContext.delete(entity)
+            completion()
+        }
+    }
+    
+    func deleteAll<Entity: NSManagedObject & EntityNamed>(_ type: Entity.Type, completion: @escaping () -> Void) {
+        backgroundContext.perform {[weak self] in
+            guard let self = self else { return }
+            let fetchRequest = NSFetchRequest<Entity>(entityName: Entity.entityName)
+            if let results = try? fetchRequest.execute() {
                 results.forEach { object in
-                    viewContext.delete(object)
+                    self.backgroundContext.delete(object)
                 }
-                try viewContext.save()
-            } catch {
-                print("deleteAll ERROR")
             }
+            try? viewContext.save()
+            completion()
         }
     }
 }

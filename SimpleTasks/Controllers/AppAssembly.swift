@@ -12,7 +12,9 @@ final class AppAssembly {
         
         let coreDataService = CoreDataService()
         
-        let tasksAssembly = TasksAssembly(coreDataService: coreDataService)
+        let taskRepository = TaskRepository(storage: coreDataService)
+        
+        let tasksAssembly = TasksAssembly(taskRepository: taskRepository)
         
         let appCoordinator = AppCoordinator(
             window: window,

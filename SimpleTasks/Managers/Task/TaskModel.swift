@@ -7,15 +7,16 @@
 
 import Foundation
 
-struct TaskModel {
-    var id: UUID
+struct TaskModel: UUIDble {
+    var id: UUID?
     var title: String
     var isDone: Bool
     var date: Date
+    var row: Int16
     var checkButtonTapped: () -> ()
     var changeTitle: (String) -> ()
     
     static func getMockModel() -> Self {
-        return TaskModel(id: UUID(), title: "Test", isDone: false, date: Date(), checkButtonTapped: {}, changeTitle: {_ in })
+        return TaskModel(id: UUID(), title: "Mocked model because error", isDone: false, date: Date(), row: 0, checkButtonTapped: {}, changeTitle: {_ in })
     }
 }

@@ -9,20 +9,20 @@ import UIKit
 
 final class TasksAssembly {
     
-    private var coreDataService: CoreDataProtocol
+    private var taskRepository: TaskRepositoryProtocol
     
-    init(coreDataService: CoreDataProtocol) {
-        self.coreDataService = coreDataService
+    init(taskRepository: TaskRepositoryProtocol) {
+        self.taskRepository = taskRepository
     }
     
     func assemble() -> TasksViewController {
         let router = TasksRouter()
         let viewController = TasksViewController()
         let presenter = TasksPresenter(
-            view: viewController,
-            router: router,
-            coreDataService: coreDataService
+            view: viewController, router: router, taskRepository: taskRepository
         )
+        
+        
         
         viewController.presenter = presenter
         router.viewController = viewController

@@ -84,8 +84,8 @@ final class TasksTableViewCellView: UIView, TaskViewConfigurePrt, UITextFieldDel
         model = viewModel
         guard let model = self.model else { return }
         titleLabel.text = model.title
-        checkButton.setImage(model.isDone ? activeTaskImage : doneTaskImage, for: .normal)
-        titleLabel.textColor = model.isDone ? .label : .lightGray
+        checkButton.setImage(model.isDone ? doneTaskImage : activeTaskImage, for: .normal)
+        titleLabel.textColor = model.isDone ? .lightGray : .label
     }
     
     @objc private func checkButtonTapped() {
